@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>dxx | Crypto Portfolio</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+    <style>
+
+        :root {
+
+            --bg-color-light: #f4f7f9;
+
+            --text-color-light: #1a202c;
+
+            --card-bg-light: #ffffff;
+
+            --header-text-light: #2d3748;
+
+            --accent-gradient: linear-gradient(120deg, #4f46e5, #ec4899);
+
+            --border-color-light: #e2e8f0;
+
+            --skill-bg-light: #f7fafc;
+
+            --skill-border-light: #e2e8f0;
+
+            --bg-color-dark: #121212;
+
+            --text-color-dark: #e2e8f0;
+
+            --card-bg-dark: #1d1d1d;
+
+            --header-text-dark: #ffffff;
+
+            --border-color-dark: #2a2a2a;
+
+            --skill-bg-dark: #2d3748;
+
+            --skill-border-dark: #4a5568;
+
+        }
+
+        body {
+
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+            margin: 0;
+
+            padding: 2rem 1rem;
+
+            background-color: var(--bg-color-light);
+
+            color: var(--text-color-light);
+
+            transition: background-color 0.3s, color 0.3s;
+
+            position: relative;
+
+        }
+
+        .container {
+
+            max-width: 800px;
+
+            margin: auto;
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+        
+
+        /* --- Background Animation --- */
+
+        .background-animation {
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            z-index: 0;
+
+            overflow: hidden;
+
+        }
+
+        .coin {
+
+            position: absolute;
+
+            display: block;
+
+            width: 40px;
+
+            height: 40px;
+
+            animation: float 25s infinite linear;
+
+            opacity: 0.15;
+
+        }
+
+        .coin img { /* Ensure user-added images fit the container */
+
+            width: 100%;
+
+            height: 100%;
+
+        }
+
+        .dark-mode .coin {
+
+            opacity: 0.1;
+
+        }
+
+        .coin:nth-child(1) { left: 10%; animation-duration: 22s; animation-delay: -5s; width: 50px; height: 50px; }
+
+        .coin:nth-child(2) { left: 20%; animation-duration: 28s; animation-delay: -2s; width: 35px; height: 35px; }
+
+        .coin:nth-child(3) { left: 30%; animation-duration: 19s; animation-delay: -10s; width: 45px; height: 45px; }
+
+        .coin:nth-child(4) { left: 40%; animation-duration: 30s; animation-delay: -15s; width: 50px; height: 50px; }
+
+        .coin:nth-child(5) { left: 50%; animation-duration: 24s; animation-delay: -8s; width: 35px; height: 35px; }
+
+        .coin:nth-child(6) { left: 60%; animation-duration: 20s; animation-delay: -3s; width: 45px; height: 45px; }
+
+        .coin:nth-child(7) { left: 70%; animation-duration: 26s; animation-delay: -12s; width: 50px; height: 50px; }
+
+        .coin:nth-child(8) { left: 85%; animation-duration: 23s; animation-delay: -6s; width: 35px; height: 35px; }
+
+        .coin:nth-child(9) { left: 90%; animation-duration: 27s; animation-delay: -18s; width: 45px; height: 45px; }
+
+        @keyframes float {
+
+            0% { transform: translateY(110vh) rotate(0deg); }
+
+            100% { transform: translateY(-10vh) rotate(360deg); }
+
+        }
+
+        /* --- End Background Animation --- */
+
+        .dark-mode {
+
+            background-color: var(--bg-color-dark);
+
+            color: var(--text-color-dark);
+
+        }
+
+        .dark-mode .card {
+
+            background-color: var(--card-bg-dark);
+
+            border: 1px solid var(--border-color-dark);
+
+        }
+
+        .dark-mode h1, .dark-mode h2, .dark-mode h3 {
+
+            color: var(--header-text-dark);
+
+        }
+
+        .card {
+
+            background-color: var(--card-bg-light);
+
+            border: 1px solid var(--border-color-light);
+
+            border-radius: 12px;
+
+            padding: 2rem;
+
+            margin-bottom: 1.5rem;
+
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+
+            transition: background-color 0.3s, border-color 0.3s;
+
+        }
+
+        .header { text-align: center; padding-top: 3rem; }
+
+        .profile-pic {
+
+            width: 150px;
+
+            height: 150px;
+
+            border-radius: 50%;
+
+            border: 5px solid white;
+
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+
+            margin-bottom: 1.5rem;
+
+            object-fit: cover;
+
+        }
+
+        .dark-mode .profile-pic { border-color: var(--card-bg-dark); }
+
+        .header h1 {
+
+            font-size: 2.5rem;
+
+            background: var(--accent-gradient);
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            margin: 0;
+
+        }
+
+        .header p { font-size: 1.1rem; color: #718096; margin-top: 0.5rem; }
+
+        .dark-mode .header p { color: #a0aec0; }
+
+        .contact-info { font-size: 0.9rem; color: #4a5568; }
+
+        .dark-mode .contact-info { color: #cbd5e0; }
+
+        .contact-info span { margin: 0 0.5rem; }
+
+        h2 {
+
+            font-size: 1.5rem;
+
+            border-left: 4px solid;
+
+            border-image: var(--accent-gradient) 1;
+
+            padding-left: 1rem;
+
+            margin-bottom: 1.5rem;
+
+        }
+
+        .skills-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+            gap: 1rem;
+
+        }
+
+        .skill-category h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+
+        .skill-category ul { list-style: none; padding: 0; margin: 0; }
+
+        
+
+        /* --- 3D Hover Effect for Skills --- */
+
+        .skill-category li {
+
+            margin-bottom: 0.75rem;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 0.75rem;
+
+            border-radius: 8px;
+
+            background-color: var(--skill-bg-light);
+
+            border: 1px solid var(--skill-border-light);
+
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+
+            cursor: pointer;
+
+        }
+
+        .dark-mode .skill-category li {
+
+            background-color: var(--skill-bg-dark);
+
+            border-color: var(--skill-border-dark);
+
+        }
+
+        .skill-category li:hover {
+
+            transform: translateY(-5px) scale(1.03);
+
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+
+        }
+
+        .dark-mode .skill-category li:hover {
+
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+
+        }
+
+        /* --- End 3D Hover Effect --- */
+
+        .experience-item { margin-bottom: 1.5rem; }
+
+        .experience-item:last-child { margin-bottom: 0; }
+
+        .experience-item h3 { font-size: 1.2rem; margin: 0; }
+
+        .experience-item p { margin: 0.25rem 0; color: #718096; }
+
+        .dark-mode .experience-item p { color: #a0aec0; }
+
+        .experience-item ul { padding-left: 20px; }
+
+        .social-links { text-align: center; }
+
+        .social-links a { margin: 0 1rem; color: #4a5568; transition: color 0.2s; }
+
+        .dark-mode .social-links a { color: #cbd5e0; }
+
+        .social-links a:hover { color: #ec4899; }
+
+        .toggle-switch { position: fixed; top: 20px; right: 20px; cursor: pointer; z-index: 10; }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="background-animation">
+
+        <div class="coin"> <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/1.png" alt="coin"> </div>
+
+        <div class="coin"> <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png" alt="coin"> </div>
+
+        <div class="coin"> <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/52.png" alt="coin"> </div>
+
+        <div class="coin"> <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png" alt="coin"> </div>
+
+        <div class="coin"> <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/74.png" alt="coin"> </div>
+
+        <div class="coin"> <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png" alt="coin"> </div>
+
+        <div class="coin"> <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/2.png" alt="coin"> </div>
+
+        <div class="coin"> <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/825.png" alt="coin"> </div>
+
+        <div class="coin"> <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/2010.png" alt="coin"> </div>
+
+    </div>
+
+    <div class="toggle-switch" onclick="toggleDarkMode()">
+
+        <i data-feather="moon" id="mode-icon"></i>
+
+    </div>
+
+    
+
+    <div class="container">
+
+        <div class="header card">
+
+            <img src="dxx.png" alt="Profile Picture" class="profile-pic">
+
+            
+
+            <h1>dxx</h1>
+
+            <p>Crypto Enthusiast & Airdrop Specialist</p>
+
+            <div class="contact-info">
+
+                <span>📍 Malaysia</span> |
+
+                <span>📧 dxxineth@gmail.com</span> |
+
+                <span>🌐 dxxin.eth</span>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Summary</h2>
+
+            <p>A proactive and detail-oriented crypto native who embarked on their Web3 journey in November 2021. With a strong focus on identifying emerging opportunities, I specialize in airdrops, testnets, and retroactive farming. My expertise also extends to the dynamic NFT ecosystem, where I actively research and engage with new projects. I am passionate about contributing to community growth and leveraging my research skills to navigate the evolving blockchain landscape.</p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Skills & Expertise</h2>
+
+            <div class="skills-grid">
+
+                <div class="skill-category">
+
+                    <h3>Sector Knowledge</h3>
+
+                    <ul>
+
+                        <li><i data-feather="layers"></i> DeFi Protocols</li>
+
+                        <li><i data-feather="image"></i> NFTs & GameFi</li>
+
+                        <li><i data-feather="git-merge"></i> Layer 1 & 2 Solutions</li>
+
+                        <li><i data-feather="gift"></i> Airdrop Farming</li>
+
+                    </ul>
+
+                </div>
+
+                <div class="skill-category">
+
+                    <h3>Technical Skills</h3>
+
+                    <ul>
+
+                        <li><i data-feather="file-text"></i> Smart Contract Interaction</li>
+
+                        <li><i data-feather="pen-tool"></i> Wallet Proficiency</li>
+
+                        <li><i data-feather="search"></i> Blockchain Exploration</li>
+
+                    </ul>
+
+                </div>
+
+                <div class="skill-category">
+
+                    <h3>Community & Research</h3>
+
+                    <ul>
+
+                        <li><i data-feather="users"></i> Community Management</li>
+
+                        <li><i data-feather="edit-3"></i> Content Creation</li>
+
+                        <li><i data-feather="book-open"></i> In-depth Research (DYOR)</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        
+
+        <div class="card">
+
+            <h2>Crypto Journey & Experience</h2>
+
+            <div class="experience-item">
+
+                <h3>Collab Manager | Discord Community</h3>
+
+                <p>2024 - Present</p>
+
+                <ul>
+
+                    <li>Managed collaborations and partnerships for a growing Discord community of over 500 members.</li>
+
+                    <li>Fostered relationships with other projects and influencers to enhance community engagement.</li>
+
+                </ul>
+
+            </div>
+
+            <div class="experience-item">
+
+                <h3>Moderator | Telegram Community</h3>
+
+                <p>2024 - Present</p>
+
+                <ul>
+
+                    <li>Co-managed and moderated a vibrant Telegram group with over 1,500 active members.</li>
+
+                    <li>Provided timely support and maintained a positive, secure environment for the community.</li>
+
+                </ul>
+
+            </div>
+
+            <div class="experience-item">
+
+                <h3>Airdrop & Testnet Specialist (Independent)</h3>
+
+                <p>Nov 2021 - Present</p>
+
+                <ul>
+
+                    <li>Systematically participated in testnets and mainnet protocols to qualify for retroactive airdrops.</li>
+
+                    <li>Developed effective methods for tracking and engaging with promising early-stage projects.</li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        <div class="card social-links">
+
+             <a href="https://x.com/dxxinsign" target="_blank" title="X / Twitter"><i data-feather="twitter"></i></a>
+
+             <a href="https://t.me/dxxinape" target="_blank" title="Telegram"><i data-feather="send"></i></a>
+
+             <a href="#" onclick="alert('Discord: 0xdxx_'); return false;" title="Discord"><i data-feather="message-square"></i></a>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        feather.replace();
+
+        function toggleDarkMode() {
+
+            const body = document.body;
+
+            body.classList.toggle('dark-mode');
+
+            const icon = document.getElementById('mode-icon');
+
+            if (body.classList.contains('dark-mode')) {
+
+                icon.setAttribute('data-feather', 'sun');
+
+            } else {
+
+                icon.setAttribute('data-feather', 'moon');
+
+            }
+
+            feather.replace();
+
+        }
+
+    </script>
+
+</body>
+
+</html>
+
